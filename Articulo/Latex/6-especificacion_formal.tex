@@ -1,0 +1,156 @@
+\section{Especificación Formal}
+
+\subsection{Clase Metal}
+
+La clase \textbf{Metal} representa un metal detectado en una muestra de agua. Los atributos principales son:
+
+\begin{itemize}
+    \item \texttt{id}: Un identificador único para el metal.
+    \item \texttt{nombre}: El nombre del metal, representado como una secuencia de caracteres.
+    \item \texttt{concentracion}: La concentración del metal en la muestra, que debe ser un número real positivo.
+\end{itemize}
+
+Además, la clase contiene dos invariantes:
+
+\begin{itemize}
+    \item La longitud del nombre debe ser mayor que cero.
+    \item La concentración debe ser mayor que cero.
+\end{itemize}
+
+El código en VDM++ de la clase es el siguiente:
+
+\begin{lstlisting}
+class Metal
+
+types
+public String = seq of char
+
+instance variables
+private id: nat1;
+private nombre: String;
+private concentracion: real;
+
+inv len nombre > 0;
+inv concentracion > 0;
+
+operations
+public Metal: nat1 * String * real ==> Metal
+Metal(i, nom, con) == ( id := i; nombre := nom;
+	concentracion := con; );
+
+public getId: () ==> nat1
+getId() == ( return id; );
+
+public getConcentracion: () ==> real
+getConcentracion() == ( return concentracion; );
+
+end Metal
+\end{lstlisting}
+
+\subsection{Clase Muestra}
+
+La clase \textbf{Muestra} modela una muestra de agua que contiene diferentes metales. Los atributos principales de esta clase son:
+
+\begin{itemize}
+    \item \texttt{id}: Un identificador único de la muestra.
+    \item \texttt{ubicacion}: La ubicación donde se tomó la muestra.
+    \item \texttt{fecha} y \texttt{hora}: La fecha y la hora en que se tomó la muestra.
+    \item \texttt{metales}: Una secuencia de metales que se detectaron en la muestra.
+\end{itemize}
+
+Los invariantes de la clase aseguran que:
+
+\begin{itemize}
+    \item La ubicación no sea vacía.
+    \item La secuencia de metales contenga al menos un metal.
+\end{itemize}
+
+El código en VDM++ de la clase es el siguiente:
+
+\begin{lstlisting}
+class Muestra
+types
+public String = seq of char;
+public Date = nat1 * nat1 * nat1;
+public Time = nat * nat * nat;
+
+instance variables
+private id: nat1;
+public ubicacion: String;
+public fecha: Date;
+public hora: Time;
+private metales: seq of Metal;
+
+inv len ubicacion > 0;
+inv len metales > 0;
+
+operations
+public Muestra: nat1 * String * Date * Time * seq of Metal ==> Muestra
+Muestra(i, ubi, fec, hor, metal) == ( id := i; ubicacion := ubi;
+	fecha := fec; hora := hor; metales := metal;
+);
+
+public getMetales: () ==> seq of Metal
+getMetales() == ( return metales; );
+
+end Muestra
+\end{lstlisting}
+
+\subsection{Clase Reporte}
+
+La clase \textbf{Reporte} almacena la información sobre múltiples muestras y define los límites permitidos para las concentraciones de metales. Los atributos principales son:
+
+\begin{itemize}
+    \item \texttt{id}: Un identificador único para el reporte.
+    \item \texttt{limiteMetales}: Un mapa que relaciona los identificadores de los metales con los límites de concentración permitidos.
+    \item \texttt{muestras}: Una secuencia de muestras que se han tomado.
+    \item \texttt{alerta}: Un valor booleano que indica si se ha detectado un riesgo.
+\end{itemize}
+
+Los invariantes de la clase aseguran que:
+
+\begin{itemize}
+    \item La secuencia de muestras no sea vacía.
+    \item El mapa de límites de metales contenga al menos un valor.
+\end{itemize}
+
+La operación \texttt{riesgoMetal} evalúa cada muestra y verifica si la concentración de algún metal excede los límites permitidos. Si esto ocurre, se activa la alerta.
+
+El código en VDM++ de la clase es el siguiente:
+
+\begin{lstlisting}
+class Reporte
+types
+public String = seq of char;
+
+instance variables
+private id: nat1;
+public limiteMetales: map int to Metal;
+public muestras: seq of Muestra;
+public alerta: bool;
+
+inv len muestras > 0;
+inv card limiteMetales > 0;
+
+operations
+public Reporte: nat1 * map int to Metal * seq of Muestra * bool ==> Reporte
+Reporte(i, lim, ms, alert) == ( id := i; limiteMetales := lim;
+  muestras := ms; alerta := alert; );
+
+public riesgoMetal: () ==> bool
+riesgoMetal() == (
+  for all m in set elems muestras do (
+    let metales = m.getMetales() in (
+      for all metal in set elems metales do (
+        let limite = limiteMetales(metal.getId()) in (
+          if metal.getConcentracion() > limite.getConcentracion() then
+            return true;
+        )
+      )
+    )
+  );
+  return false;
+);
+
+end Reporte
+\end{lstlisting}

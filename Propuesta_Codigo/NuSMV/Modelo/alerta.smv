@@ -1,0 +1,34 @@
+MODULE main
+VAR
+  System1 : {AlertaOn, AlertaOff}; -- Sistema 1 puede estar en AlertaOn o AlertaOff
+  System2 : {AlertaOn, AlertaOff}; -- Sistema 2 puede estar en AlertaOn o AlertaOff
+
+ASSIGN
+  -- Inicialización de los sistemas
+  init(System1) := AlertaOff;
+  init(System2) := AlertaOff;
+
+  -- Transiciones para System1
+  next(System1) := case
+    System1 = AlertaOff : {AlertaOn, AlertaOff}; -- Desde AlertaOff puede ir a AlertaOn o quedarse en AlertaOff
+    System1 = AlertaOn : {AlertaOff};            -- Desde AlertaOn solo puede ir a AlertaOff
+    TRUE : System1;                              -- Default (por seguridad)
+  esac;
+
+  -- Transiciones para System2
+  next(System2) := case
+    System2 = AlertaOff : {AlertaOn, AlertaOff}; -- Desde AlertaOff puede ir a AlertaOn o quedarse en AlertaOff
+    System2 = AlertaOn : {AlertaOff};            -- Desde AlertaOn solo puede ir a AlertaOff
+    TRUE : System2;                              -- Default (por seguridad)
+  esac;
+
+-- Especificaciones en CTL
+SPEC AG !(System1 = AlertaOn & System2 = AlertaOn) -- Siempre es cierto que ambos sistemas no están en "AlertaOn" al mismo tiempo.
+SPEC EF System1 = AlertaOn                        -- Eventualmente, el sistema 1 llega al estado "AlertaOn".
+SPEC EF System2 = AlertaOn                        -- Eventualmente, el sistema 2 llega al estado "AlertaOn".
+SPEC AG (System1 = AlertaOff -> AX System1 = AlertaOn) -- Si System1 está en "AlertaOff", en el siguiente estado puede ir a "AlertaOn".
+
+-- Especificaciones en LTL
+LTLSPEC F (System1 = AlertaOn)                    -- En algún momento, System1 estará en "AlertaOn".
+LTLSPEC G (System1 = AlertaOn -> X System1 = AlertaOff) -- Siempre que System1 esté en "AlertaOn", cambiará a "AlertaOff" en el siguiente estado.
+

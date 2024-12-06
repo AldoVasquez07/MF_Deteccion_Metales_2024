@@ -1,0 +1,26 @@
+MODULE main
+VAR
+  System1 : {AlertaOn, AlertaOff};
+  System2 : {AlertaOn, AlertaOff};
+
+ASSIGN
+  -- Inicialización de los sistemas
+  init(System1) := AlertaOff;
+  init(System2) := AlertaOff;
+
+  -- Transiciones para System1
+  next(System1) := case
+    System1 = AlertaOff : {AlertaOn, AlertaOff};
+    System1 = AlertaOn : {AlertaOff};
+    TRUE : System1;
+  esac;
+
+  -- Transiciones para System2
+  next(System2) := case
+    System2 = AlertaOff : {AlertaOn, AlertaOff};
+    System2 = AlertaOn : {AlertaOff};
+    TRUE : System2;
+  esac;
+
+-- Propiedad a verificar
+SPEC AG !(System1 = AlertaOn & System2 = AlertaOn)

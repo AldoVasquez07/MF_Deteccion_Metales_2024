@@ -1,0 +1,25 @@
+class Metal
+
+types
+public String = seq of char
+
+instance variables
+private id: nat1;
+private nombre: String;
+private concentracion: real;
+
+/*inv len nombre > 0;
+inv concentracion > 0;*/
+
+operations
+public Metal: nat1 * String * real ==> Metal
+Metal(i, nom, con) == ( id := i; nombre := nom;
+	concentracion := con; );
+
+public getId: () ==> nat1
+getId() == ( return id; );
+
+public getConcentracion: () ==> real
+getConcentracion() == ( return concentracion; );
+
+end Metal

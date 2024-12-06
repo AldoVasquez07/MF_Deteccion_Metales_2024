@@ -1,0 +1,83 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{graphicx}
+\usepackage{cite}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows, positioning}
+\usepackage{caption}
+\usepackage{graphicx}
+
+\lstdefinelanguage{VDM++}{
+  morekeywords={types, public, private, instance, variables, inv, operations, return, class, seq, of, nat1, nat, real, bool, map, set, elems, let, if, then, end},
+  sensitive=true,
+  morecomment=[l]{--},       % Comentarios de una línea
+  morestring=[b]",           % Definición de cadenas de texto
+  basicstyle=\ttfamily,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{gray}\itshape,
+  stringstyle=\color{green}\bfseries,
+}
+
+\lstset{
+  language=VDM++,           % Usar el lenguaje VDM++ definido
+  numbers=none,             % Desactivar la numeración de líneas
+  basicstyle=\ttfamily\small, % Estilo de letra
+  breaklines=true,          % Dividir líneas largas automáticamente
+  frame=single,             % Marco alrededor del código
+  rulecolor=\color{black},  % Color del marco
+}
+
+
+\title{Especificación Formal y Validación de un Sistema de Detección de Metales Pesados en el Agua}
+\author{
+    \IEEEauthorblockN{
+        M. Pinazo\IEEEauthorrefmark{$1$}, 
+        A. Vasquez\IEEEauthorrefmark{$2$}, 
+        J. Ramos\IEEEauthorrefmark{$3$}, 
+        J. Quispe\IEEEauthorrefmark{$4$}, 
+        F. Perez\IEEEauthorrefmark{$5$},
+        M. Molina\IEEEauthorrefmark{$6$}
+    }
+    \IEEEauthorblockA{Universidad La Salle de Arequipa, Perú}
+    
+    \IEEEauthorblockA{
+        \IEEEauthorrefmark{$1$}mpinazov@ulasalle.edu.pe, 
+        \IEEEauthorrefmark{$2$}avasquezl@ulasalle.edu.pe, 
+        \IEEEauthorrefmark{$3$}jramoss@ulasalle.edu.pe,\\
+        \IEEEauthorrefmark{$4$}jquispel@ulasalle.edu.pe,
+        \IEEEauthorrefmark{$5$}fperezd@ulasalle.edu.pe
+        \IEEEauthorrefmark{$6$}mmolinab@ulasalle.edu.pe
+    }
+}
+
+\renewcommand\IEEEkeywordsname{Palabras clave}
+\renewcommand\abstractname{Resumen}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+El presente artículo establece una especificación formal y validación de un sistema de detección de metales pesados en el agua centrado en una solución de monitoreo automatizado y continuo. El sistema sugerido utiliza métodos electroquímicos para detectar la presencia de metales peligrosos como mercurio, arsénico y plomo. El sistema proporciona reportes detallados sobre la calidad del agua y alertas en tiempo real cuando las concentraciones de metales superan los niveles de seguridad. Para configurar el sistema, se utilizan métodos formales, particularmente VDM++, definiendo elementos importantes como estructuras de clases, tipos de datos y expresiones. Simulaciones y pruebas se realizan con muestras de agua limpia y contaminada para validar el sistema. Este método evita la necesidad de un monitoreo preciso a largo plazo de la calidad del agua y garantiza la precisión y confiabilidad del sistema.
+\end{abstract}
+
+
+\begin{IEEEkeywords}
+    \textit{Metales pesados, Monitoreo de agua, VDM++, Validación, Especificación formal, Electroquímica, Alertas en tiempo real.}
+\end{IEEEkeywords}
+
+
+\input{1-introduccion}
+\input{2-trabajos_relacionados}
+\input{3-background}
+\input{4-especificaciones_formales_vdmpp}
+\input{5-propuesta}
+\input{6-especificacion_formal}
+\input{7-validacion}
+\input{8-model_checking}
+\input{9-conclusion}
+
+\bibliographystyle{IEEEtran}
+\bibliography{bibliography}
+
+\end{document}

@@ -1,0 +1,26 @@
+class Muestra
+types
+public String = seq of char;
+public Date = nat1 * nat1 * nat1;
+public Time = nat * nat * nat;
+
+instance variables
+private id: nat1;
+public ubicacion: String;
+public fecha: Date;
+public hora: Time;
+private metales: seq of Metal;
+
+/*inv len ubicacion > 0;
+inv len metales > 0;*/
+
+operations
+public Muestra: nat1 * String * Date * Time * seq of Metal ==> Muestra
+Muestra(i, ubi, fec, hor, metal) == ( id := i; ubicacion := ubi;
+	fecha := fec; hora := hor; metales := metal;
+);
+
+public getMetales: () ==> seq of Metal
+getMetales() == ( return metales; );
+
+end Muestra
