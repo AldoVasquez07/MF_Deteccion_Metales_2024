@@ -7,6 +7,11 @@
 \usetikzlibrary{shapes, arrows, positioning}
 \usepackage{caption}
 \usepackage{graphicx}
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[backend=biber]{biblatex}
+
+\addbibresource{bibliography.bib}
 
 \lstdefinelanguage{VDM++}{
   morekeywords={types, public, private, instance, variables, inv, operations, return, class, seq, of, nat1, nat, real, bool, map, set, elems, let, if, then, end},
@@ -66,7 +71,6 @@ El presente artículo establece una especificación formal y validación de un s
     \textit{Metales pesados, Monitoreo de agua, VDM++, Validación, Especificación formal, Electroquímica, Alertas en tiempo real.}
 \end{IEEEkeywords}
 
-
 \input{1-introduccion}
 \input{2-trabajos_relacionados}
 \input{3-background}
@@ -77,7 +81,8 @@ El presente artículo establece una especificación formal y validación de un s
 \input{8-model_checking}
 \input{9-conclusion}
 
-\bibliographystyle{IEEEtran}
-\bibliography{bibliography}
+% Incluye todas las referencias sin citarlas explícitamente en el texto
+\nocite{*}
+\printbibliography
 
 \end{document}

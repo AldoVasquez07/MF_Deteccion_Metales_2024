@@ -73,33 +73,9 @@ LTLSPEC F (System1 = AlertaOn);
 LTLSPEC G (System1 = AlertaOn -> X System1 = AlertaOff);
 \end{lstlisting}
 
-A continuación se presenta nuestro contra ejemplo del modelo establecido en NuSMV.
-\begin{lstlisting}
-MODULE main
-VAR
-  System1 : {AlertaOn, AlertaOff};
-  System2 : {AlertaOn, AlertaOff};
-
-ASSIGN
-  -- Inicializacion de los sistemas
-  init(System1) := AlertaOff;
-  init(System2) := AlertaOff;
-
-  -- Transiciones para System1
-  next(System1) := case
-    System1 = AlertaOff : {AlertaOn, AlertaOff};
-    System1 = AlertaOn : {AlertaOff};
-    TRUE : System1;
-  esac;
-
-  -- Transiciones para System2
-  next(System2) := case
-    System2 = AlertaOff : {AlertaOn, AlertaOff};
-    System2 = AlertaOn : {AlertaOff};
-    TRUE : System2;
-  esac;
-
--- Propiedad a verificar
-SPEC AG !(System1 = AlertaOn & System2 = AlertaOn)
-
-\end{lstlisting}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{Recursos/modelo1.png}
+    \caption{Primer Diagrama de Transiciones}
+    \label{fig:enter-label}
+\end{figure}
